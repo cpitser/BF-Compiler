@@ -15,14 +15,14 @@ import java.util.Stack;
 
 public class bf {
 
-    private static final int TAPESIZE = 100;
+	private static final int TAPESIZE = 100;
 	private static int tapeIndex;
 	private static int[] tape;
 	private static int lineCounter;
 	public static int i;
 	public static Scanner userInput = new Scanner(System.in);
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 		if (args.length == 0) {
 			System.out.println("Incorrect Usage\nUsage: bf [file]");
 		} else {
@@ -31,20 +31,23 @@ public class bf {
 				Scanner fileScanner = new Scanner(file);
 				bf.tape = new int[TAPESIZE];
 				bf.i = 0;
+				// initialize the empty tape
 				while (bf.i < TAPESIZE) {
 					bf.tape[bf.i] = 0;
 					bf.i++;
 				} // for
 				bf.tapeIndex = 0;
 				bf.lineCounter = 0;
+				// evaluate all lines in file
 				while (fileScanner.hasNextLine()) {
 					bf.lineCounter++;
 					String line = fileScanner.nextLine();
 					bf.i = 0;
+					// evaluate all chars on the current line
 					while (bf.i<line.length()) {
 						bf.evaluate(line, bf.i);
 						bf.i++;
-					} // for
+					} // while
 				} // while
 				System.out.println();
 			} catch (FileNotFoundException fnfe) {
@@ -55,7 +58,7 @@ public class bf {
 				System.exit(1);
 			} // try
 		} // if
-    } // main
+	} // main
 
 	private static void evaluate(String line, int x) throws IllegalArgumentException {
 		switch (line.charAt(x)) {
@@ -86,20 +89,24 @@ public class bf {
 	} // evaluate
 
 	private static void recursion(String line) throws IllegalArgumentException {
-		boolean quit = false;
+		boolean end = false;
 		int lineIndex = 0;
-		while (!quit) {
+		// until reached end of loop and current tape index value is 0
+		while (!end) { 
+			// evaluate all elements in the loop
 			while (lineIndex != line.length() && line.charAt(lineIndex) != ']') {								
 				bf.evaluate(line, lineIndex);
 				lineIndex++;
 			} // while
+			// no ] is found
 			if (lineIndex == line.length()) {
 				throw new IllegalArgumentException("Incorrect loop syntax at line: " + bf.lineCounter);
 			} else {
+				// if current tape index value is not 0 restart loop, otherwise end loop
 				if (bf.tape[bf.tapeIndex] != 0) {
 					lineIndex = 0;
 				} else {
-					quit = true;
+					end = true;
 					bf.i += lineIndex + 1;
 				} // if
 			} // if

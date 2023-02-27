@@ -59,38 +59,29 @@ public class bf {
 
 	private static void evaluate(String line, int x) throws IllegalArgumentException {
 		switch (line.charAt(x)) {
-
 			case '>':
 				bf.tapeIndex++;
 				break;
-
 			case '<':
 				if (bf.tapeIndex != 0) { bf.tapeIndex--; }
 				break;
-
 			case '+':
 				bf.tape[bf.tapeIndex]++;
 				break;
-
 			case '-':
 				bf.tape[bf.tapeIndex]--;
 				break;
-
 			case '.':
 				System.out.print((char)bf.tape[bf.tapeIndex]);
 				break;
-
 			case ',':
 				bf.tape[bf.tapeIndex] = userInput.nextInt();
 				break;
-
 			case '[':
 				bf.recursion(line.substring(i+1,line.length()));
 				break;
-
 			case ']':
 				throw new IllegalArgumentException("Invalid loop syntax at line: " + bf.lineCounter);
-
 		} // switch
 	} // evaluate
 
